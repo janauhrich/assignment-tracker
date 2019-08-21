@@ -3,7 +3,6 @@ import request from './request'
 const { REACT_APP_API_DOMAIN } = process.env
 const BASE_URL = REACT_APP_API_DOMAIN
 
-console.log(BASE_URL)
 
 export const login = async (user) => {
   const response = await fetch(`${BASE_URL}/api/login`, {

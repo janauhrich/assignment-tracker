@@ -21,7 +21,7 @@ export default ({ currentUserId, destroyAssignment, user }) => {
 
   return (
     <>
-      <h1 className='mb-4'>{ user.username }'s Assignments</h1>
+      <h1 className='mb-4'>{ user.first_name }'s Assignments</h1>
       { assignments }
     </>
   )
