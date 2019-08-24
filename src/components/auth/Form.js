@@ -24,35 +24,58 @@ class Form extends React.Component {
   }
 
   handleError({ target: { name, value } }) {
-    
-    if (name === 'email') { 
-      const validEmail = EmailValidator.validate(this.state.email) 
-      if (!validEmail) {
-        this.setState({ emailError: 'Error: Your email is invalid' })
+
+    const validEmail = EmailValidator.validate(this.state.email)
+
+    if (name === 'first_name') {
+      if (!value) {
+        //never use color alone to indicate an error
+        this.setState({ first_nameError: 'Error: First name is required' })
+      } else {
+        this.setState({ first_nameError: '' })
+        delete this.state.first_nameError;
+      }
+    }
+    if (name === 'last_name') {
+      if (!value) {
+        this.setState({ last_nameError: 'Error: Last name is required' })
+      } else {
+        this.setState({ last_nameError: '' })
+        delete this.state.last_nameError;
+      }
+    }
+    if (name === 'email') {
+      if (!value) {
+        this.setState({ emailError: 'Error: Email address is required' })
+      } else if (!validEmail) {
+        this.setState({ emailError: 'Error: You must enter a valid email address' })
       } else {
         this.setState({ emailError: '' })
         delete this.state.emailError;
       }
     }
-    if (name === 'password') { 
+    if (name === 'password') {
       const validPassword = this.state.password.length >= 8
-      if (!validPassword) {
+      if (!value) {
+        this.setState({ passwordError: 'Error: Password is required' })
+      } else if (!validPassword) {
         this.setState({ passwordError: 'Error: Your password must be at least 8 characters' })
       } else {
         this.setState({ passwordError: '' })
         delete this.state.passwordError;
       }
-    }    
+    }
+    if (!this.state.first_nameError && !this.state.last_nameError && !this.state.passwordError && !this.state.emailError) {
+      this.setState({ formError: '' })
+      delete this.state.formError;
+    }
+        
   }
 
   handleSubmit (e) {
-    e.preventDefault();
-    const isThisOk = function () {
-      return this.form.current.reportValidity();
-    }
-    console.log(isThisOk)
-    if (this.state.passwordError || this.state.emailError) {
-      this.setState({ formError: 'Error: Form cannot be submitted. Check your email & password.' })
+    e.preventDefault()
+    if (this.state.first_nameError || this.state.last_nameError || this.state.passwordError || this.state.emailError) {
+      this.setState({ formError: 'Error: Form could not be submitted. Check that all fields have been entered and that your email and password are correct.' })
       //this sets the focus to the main error if the form wasn't submitted - super awesome for accessibility 
       this.errorFocus.current.focus();
     } else {
@@ -64,8 +87,8 @@ class Form extends React.Component {
   render () {
     return (
       
-      <form onSubmit={this.handleSubmit}>
-        <span tabIndex='-1' className='error' ref={this.errorFocus} >{this.state.formError}</span>
+      <form noValidate onSubmit={this.handleSubmit}>
+        <span aria-live='polite' tabIndex='-1' className='error' ref={this.errorFocus} >{this.state.formError}</span>
         {(this.props.location.pathname === '/signup') &&
           <>
           <div className='form-group'>
@@ -74,11 +97,13 @@ class Form extends React.Component {
               className='form-control'
               id='firstName'
               onChange={this.handleChange}
+              onBlur={this.handleError}
               name='first_name'
               type='text'
               value={this.state.firstName}
               required
             />
+            <span className='error' aria-live="polite">{this.state.first_nameError}</span>
           </div>
           <div className='form-group'>
             <label htmlFor='lastName'>Last Name</label>
@@ -86,11 +111,13 @@ class Form extends React.Component {
               className='form-control'
               id='lastName'
               onChange={this.handleChange}
+              onBlur={this.handleError}
               name='last_name'
               type='text'
               value={this.state.lastName}
               required
             />
+            <span className='error' aria-live="polite">{this.state.last_nameError}</span>
           </div> 
           </>
         }  
