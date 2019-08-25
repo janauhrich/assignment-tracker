@@ -22,6 +22,7 @@ class App extends React.Component {
     super();
     this.state = {
       currentUserId: null,
+      isAdmin: null,
       loading: true,
       failure: null
     };
@@ -35,7 +36,11 @@ class App extends React.Component {
     if (token.getToken()) {
       const { user } = await auth.home();
       if (user) {
-        this.setState({ currentUserId: user._id, loading: false });
+        this.setState({
+          currentUserId: user._id,
+          isAdmin: user.admin,
+          loading: false
+        });
       }
     } else {
       this.setState({ loading: false });
@@ -50,9 +55,9 @@ class App extends React.Component {
     } else {
       await token.setToken(response);
       const home = await auth.home();
-
       if (home) {
         this.setState({ currentUserId: home.user._id });
+        this.setState({ isAdmin: home.user.admin });
       }
     }
   }
@@ -72,7 +77,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentUserId, loading } = this.state;
+    const { currentUserId, isAdmin, loading } = this.state;
     if (loading) return <span />;
 
     return (
@@ -80,6 +85,7 @@ class App extends React.Component {
         <Header />
         <Navigation
           currentUserId={currentUserId}
+          isAdmin={isAdmin}
           logoutUser={this.logoutUser}
         />
         <Switch>
@@ -101,7 +107,7 @@ class App extends React.Component {
               return currentUserId ? (
                 <Redirect to="/users" />
               ) : (
-                <Signup onSubmit={this.signupUser} />
+                <Signup onSubmit={this.signupUser} failure={this.state.failure} />
               );
             }}
           />
@@ -110,7 +116,7 @@ class App extends React.Component {
             path="/users"
             render={() => {
               return currentUserId ? (
-                <UsersContainer currentUserId={currentUserId} />
+                <UsersContainer currentUserId={currentUserId} isAdmin={isAdmin} />
               ) : (
                 <Redirect to="/login" />
               );

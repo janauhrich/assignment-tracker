@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 // Helpers
 import * as users from '../../api/users'
@@ -30,13 +30,22 @@ export default class Container extends React.Component {
   }
 
   render () {
-    const { currentUserId } = this.props
+    const { currentUserId, isAdmin } = this.props
     const { users, loading } = this.state
     if (loading) return <span/>
 
     return (
       <main className='container'>
-        <Route path='/users' exact component={() => <List users={users} />} />
+        <Route
+          path='/users' exact
+          render={() => {
+            return isAdmin ? (
+              <List users={users} />
+            ) : (
+                <Redirect to={`/users/${currentUserId}/assignments`} />
+              );
+          }}
+        />
         <AssignmentsContainer
           currentUserId={currentUserId}
           refreshUsers={this.refreshUsers}

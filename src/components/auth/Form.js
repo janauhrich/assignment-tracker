@@ -24,9 +24,6 @@ class Form extends React.Component {
   }
 
   handleError({ target: { name, value } }) {
-
-    
-
     if (name === 'first_name') {
       if (!value) {
         //never use color alone to indicate an error
