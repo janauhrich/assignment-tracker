@@ -25,7 +25,7 @@ class Form extends React.Component {
 
   handleError({ target: { name, value } }) {
 
-    const validEmail = EmailValidator.validate(this.state.email)
+    
 
     if (name === 'first_name') {
       if (!value) {
@@ -45,6 +45,7 @@ class Form extends React.Component {
       }
     }
     if (name === 'email') {
+      const validEmail = EmailValidator.validate(this.state.email)
       if (!value) {
         this.setState({ emailError: 'Error: Email address is required' })
       } else if (!validEmail) {
@@ -88,7 +89,7 @@ class Form extends React.Component {
     return (
       
       <form noValidate onSubmit={this.handleSubmit}>
-        <span aria-live='polite' tabIndex='-1' className='error' ref={this.errorFocus} >{this.state.formError}</span>
+        <span aria-live='polite' tabIndex='-1' className='error' ref={this.errorFocus} >{this.state.formError}{this.props.failure}</span>
         {(this.props.location.pathname === '/signup') &&
           <>
           <div className='form-group'>
