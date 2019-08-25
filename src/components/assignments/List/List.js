@@ -1,28 +1,30 @@
-import React from 'react'
+import React from "react";
 
-import Actions from './List.Actions'
+import Actions from "./List.Actions";
+import Score from "./List.Score"
 
 export default ({ currentUserId, destroyAssignment, user }) => {
   const assignments = user.assignments.map(assignment => (
-    <div key={assignment._id} className='card'>
-      <div className='card-body'>
-        <p className='card-text'>{ assignment.title }</p>
-        <blockquote className='blockquote mb-0'>
-          <footer className='blockquote-footer'>{ assignment.project_description }</footer>
-        </blockquote>
+    <div key={assignment._id} className="card">
+      <div className="card-body">
+        <h3 className="card-title">{assignment.title}</h3>
+        <span className="card-text">{assignment.project_description}</span>
+        <Score assignmentScore={assignment.score} assignmentBase={assignment.base} />
+
       </div>
       <Actions
         currentUserId={currentUserId}
         destroyAssignment={destroyAssignment}
         assignment={assignment}
-        user={user} />
+        user={user}
+      />
     </div>
-  ))
+  ));
 
   return (
     <>
-      <h1 className='mb-4'>{ user.first_name }'s Assignments</h1>
-      { assignments }
+      <h2 className="mb-4">{user.first_name}'s Assignments</h2>
+      {assignments}
     </>
-  )
-}
+  );
+};
