@@ -74,6 +74,7 @@ class App extends React.Component {
 
     const home = await auth.home();
     this.setState({ currentUserId: home.user._id });
+    this.setState({ isAdmin: home.user.admin });
   }
 
   render() {
