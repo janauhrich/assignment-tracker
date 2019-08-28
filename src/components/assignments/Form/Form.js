@@ -4,8 +4,8 @@ export default class Form extends React.Component {
   constructor (props) {
     super(props)
     const { assignment = {} } = this.props
-    const { title = '', project_description = '', project_link = '' , score = '', base = ''  } = assignment
-    this.state = { title, project_description, project_link, score, base }
+    const { title = '', project_description = '', project_link = ''} = assignment
+    this.state = { title, project_description, project_link}
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -41,44 +41,24 @@ export default class Form extends React.Component {
             value={this.state.title} />
         </div>        
         <div className='form-group'>
-          <label htmlFor='project-description'>Project Description</label>
-          <input
+          <label htmlFor='project_description'>Project Description</label>
+          <textarea
             className='form-control'
-            id='project-description'
+            id='project_description'
             onChange={this.handleChange}
-            name='project-description'
+            name='project_description'
             type='text'
             value={this.state.project_description} />
         </div>
         <div className='form-group'>
-          <label htmlFor='project-link'>Project Link</label>
-          <textarea
+          <label htmlFor='project_link'>Project Link</label>
+          <input
             className='form-control'
-            id='project-link'
+            id='project_link'
             onChange={this.handleChange}
-            name='project-link'
+            name='project_link'
             type='text'
             value={this.state.project_link} />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='score'>Score</label>
-          <textarea
-            className='form-control'
-            id='score'
-            onChange={this.handleChange}
-            name='score'
-            type='number'
-            value={this.state.score} />
-        </div>        
-        <div className='form-group'>
-          <label htmlFor='base'>Base</label>
-          <textarea
-            className='form-control'
-            id='case'
-            onChange={this.handleChange}
-            name='base'
-            type='number'
-            value={this.state.base} />
         </div>        
         <button type='submit' className='btn btn-primary'>Submit</button>
       </form>

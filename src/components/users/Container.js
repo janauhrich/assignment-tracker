@@ -15,7 +15,6 @@ export default class Container extends React.Component {
       users: [],
       loading: true
     }
-
     this.refreshUsers = this.refreshUsers.bind(this)
   }
 
