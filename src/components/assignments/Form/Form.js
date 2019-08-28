@@ -7,11 +7,11 @@ export default class Form extends React.Component {
 
     const { assignment = {} } = this.props;
     const {
-      assignment_title = "",
+      title = "",
       project_description = "",
       project_link = ""
     } = assignment;
-    this.state = { assignment_title, project_description, project_link };
+    this.state = { title, project_description, project_link };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleError = this.handleError.bind(this);
@@ -24,7 +24,7 @@ export default class Form extends React.Component {
 
   handleError({ target: { name, value } }) {
     if (!value) {
-      if (name === 'assignment_title') {
+      if (name === 'title') {
         this.setState({ titleRequiredError: "Error: Assignment title is required" });
       } else if (name ==='project_description') { 
         this.setState({ descriptionRequiredError: "Error: Project description is required" });
@@ -58,13 +58,13 @@ export default class Form extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <span aria-live='polite' tabIndex='-1' className='error' ref={this.errorFocus}>{this.state.formError}{this.props.failure}</span>
         <div className="form-group">
-          <label htmlFor="assignment_title">Assignment Title</label>
+          <label htmlFor="title">Assignment Title</label>
           <input
             className="form-control"
-            id="assignment_title"
+            id="title"
             onChange={this.handleChange}
             onBlur={this.handleError}
-            name="assignment_title"
+            name="title"
             type="text"
             value={this.state.title}
           />
