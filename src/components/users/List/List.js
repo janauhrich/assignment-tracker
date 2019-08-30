@@ -1,21 +1,24 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 export default ({ users, isAdmin }) => {
-  const assignmentList = users.map(user => (
+  const studentsList = users.map(user => {
+    if (!user.admin) {
+      return (
+        <li className="list-group-item" key={user._id}>
+          {user.first_name} {user.last_name}: {user.email}
+        </li>
+      )
+    } else {
+      return "";
+    }
 
-    <li key={user._id}>
-      <Link to={`/users/${user._id}/assignments`}>
-        {user.email}: {user.assignments.length} Assignments
-      </Link>
-    </li>
-  ))
+  });
 
   return (
     <>
-      <h1>All Assignments</h1>
-      <ul>
-        { assignmentList }
+      <h1>All Students</h1>
+      <ul className="list-group">
+        { studentsList }
       </ul>
     </>
   )
