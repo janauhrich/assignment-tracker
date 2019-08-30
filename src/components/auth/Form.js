@@ -78,7 +78,8 @@ class Form extends React.Component {
       this.errorFocus.current.focus();
     } else {
       this.props.onSubmit(this.state)
-        .then(() => this.props.history.push('/users'))
+        //push them back to /login and then let the router figure out where to send them
+        .then(() => this.props.history.push('/login'))
     }
   }
 

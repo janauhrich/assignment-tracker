@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 // Helpers
 import * as users from '../../api/users'
@@ -38,11 +38,7 @@ export default class Container extends React.Component {
         <Route
           path='/users' exact
           render={() => {
-            return isAdmin ? (
-              <List users={users} />
-            ) : (
-                <Redirect to={`/users/${currentUserId}/assignments`} />
-              );
+            return <List users={users} isAdmin={isAdmin} />
           }}
         />
         <AssignmentsContainer

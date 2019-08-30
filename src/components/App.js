@@ -94,11 +94,14 @@ class App extends React.Component {
             path="/login"
             exact
             component={() => {
-              return currentUserId ? (
-                <Redirect to="/users" />
-              ) : (
-                <Login onSubmit={this.loginUser} failure={this.state.failure} />
-              );
+              if (currentUserId) {
+                if (!isAdmin) {
+                  return <Redirect to={`/users/${currentUserId}/assignments`} />
+                }
+                return <Redirect to="/users" />
+              } else { 
+                return <Login onSubmit={ this.loginUser } failure={ this.state.failure } />
+              }
             }}
           />
           <Route
