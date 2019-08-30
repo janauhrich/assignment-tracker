@@ -3,7 +3,8 @@ import React from "react";
 import Actions from "./List.Actions";
 import Score from "./List.Score"
 
-export default ({ currentUserId, destroyAssignment, user }) => {
+export default ({ currentUserId, destroyAssignment, user, deletedAssignment }) => {
+
   const assignments = user.assignments.map(assignment => (
     <div key={assignment._id} className="card">
       <div className="card-body">
@@ -14,7 +15,7 @@ export default ({ currentUserId, destroyAssignment, user }) => {
       </div>
       <Actions
         currentUserId={currentUserId}
-        destroyAssignment={destroyAssignment}
+        destroyAssignment={destroyAssignment} 
         assignment={assignment}
         user={user}
       />
@@ -24,6 +25,7 @@ export default ({ currentUserId, destroyAssignment, user }) => {
   return (
     <>
       <h2 className="mb-4">{user.first_name}'s Assignments</h2>
+      <div className="updateAnnouncer alert" aria-live="polite" role="alert" >{deletedAssignment}</div>
       {assignments}
     </>
   );

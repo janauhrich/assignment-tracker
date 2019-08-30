@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 
 export default ({ currentUserId, destroyAssignment, assignment, user }) => (
   <div className='card-footer text-muted d-flex justify-content-around'>
@@ -17,7 +16,5 @@ export default ({ currentUserId, destroyAssignment, assignment, user }) => (
         </>
       )
     }
-    
-    <span className='btn btn-link text-muted' disabled>Created {moment(assignment.created_at).fromNow()}</span>
   </div>
 )

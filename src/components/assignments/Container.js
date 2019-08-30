@@ -11,8 +11,13 @@ import EditForm from './Form/Edit.Form'
 import NewForm from './Form/New.Form'
 
 class Container extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
+
+    this.state = {
+      deletedAssignment: null
+    }
+
     this.createAssignment = this.createAssignment.bind(this)
     this.destroyAssignment = this.destroyAssignment.bind(this)
     this.editAssignment = this.editAssignment.bind(this)
@@ -32,6 +37,8 @@ class Container extends React.Component {
     
     await assignments.destroyAssignment({ user: { _id: currentUserId }, assignment })
     await refreshUsers()
+    const deletedAssignmentMessage = `Assignment: ${assignment.title} has been deleted` 
+    this.setState({ deletedAssignment: deletedAssignmentMessage })
     
     history.push(`/users/${currentUserId}/assignments`)
   }
@@ -55,7 +62,9 @@ class Container extends React.Component {
             <List
               currentUserId={currentUserId}
               destroyAssignment={this.destroyAssignment}
-              user={user} />
+              user={user}
+              deletedAssignment={this.state.deletedAssignment}
+            />
           )
         }} />
         <Route path='/users/:userId/assignments/new' exact component={() => {
